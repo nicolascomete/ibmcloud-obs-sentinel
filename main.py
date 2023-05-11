@@ -64,7 +64,7 @@ def received_message(msg):
     try:
         print("Trying to convert message to JSON")
         json_msg = json.loads(msg)
-        print("Posting JSON to Sentinel")
+        print(f"Posting JSON to Sentinel using '{sentinel_log_type}' log type")
         post_data(customer_id, shared_key, json.dumps(json_msg), sentinel_log_type)
     except JSONDecodeError:
         print('Warning: discarding malformed JSON message (see below)')
