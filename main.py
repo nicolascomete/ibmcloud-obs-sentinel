@@ -16,24 +16,7 @@ topic = "activity-tracker"
 # MS Sentinel env vars
 customer_id = os.environ['MS_SENTINEL_WORKSPACE_ID']
 shared_key = os.environ['MS_SENTINEL_AUTH_KEY']
-sentinel_log_type = 'IBMCloudActivityTrackerRaw'
-
-print("Creating consumer");
-c = Consumer({
-    'bootstrap.servers': bootstrap_servers,
-    'group.id': 'mygroup',
-    'session.timeout.ms': 6000,
-    'auto.offset.reset': 'earliest',
-    'security.protocol': 'SASL_SSL',
-    'sasl.mechanism': 'PLAIN',
-    'sasl.username': 'token',
-    'sasl.password': api_key
-  }
-)
-
-print(f"Subscribing to topic '{topic}'")
-c.subscribe([topic])
-
+sentinel_log_type = <CHANGEME>
 
 # Build the API signature for Sentinel
 def build_signature(customer_id, shared_key, date, content_length, method, content_type, resource):
@@ -69,6 +52,7 @@ def post_data(customer_id, shared_key, body, log_type):
         print(f"Unable to send message to Sentinel (status code ={response.status_code})")
 
 
+# Callback for message received on topic
 def received_message(msg):
     print("\nReceived new message on Event Streams")
 
@@ -85,6 +69,26 @@ def received_message(msg):
     except JSONDecodeError:
         print('Warning: discarding malformed JSON message (see below)')
         print(msg)
+        
+
+# Main flow (poll Event Streams for new messages)
+# -----------------------------------------------
+
+print("Creating consumer");
+c = Consumer({
+    'bootstrap.servers': bootstrap_servers,
+    'group.id': 'mygroup',
+    'session.timeout.ms': 6000,
+    'auto.offset.reset': 'earliest',
+    'security.protocol': 'SASL_SSL',
+    'sasl.mechanism': 'PLAIN',
+    'sasl.username': 'token',
+    'sasl.password': api_key
+  }
+)
+
+print(f"Subscribing to topic '{topic}'")
+c.subscribe([topic])
 
 print("Waiting on messages...")
 while True:
