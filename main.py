@@ -16,7 +16,7 @@ topic = "activity-tracker"
 # MS Sentinel env vars
 customer_id = os.environ['MS_SENTINEL_WORKSPACE_ID']
 shared_key = os.environ['MS_SENTINEL_AUTH_KEY']
-sentinel_log_type = <CHANGEME>
+sentinel_log_type = os.environ['MS_SENTINEL_LOG_TYPE']
 
 # Build the API signature for Sentinel
 def build_signature(customer_id, shared_key, date, content_length, method, content_type, resource):
