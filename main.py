@@ -1,9 +1,10 @@
 from confluent_kafka import Consumer
+import os
 
 # IBM Event Streams parameters
 topic = "activity-tracker"
-bootstrap_servers = ''
-api_key = ''
+bootstrap_servers = os.environ['EVENT_STREAMS_BOOTSTRAP_SERVER']
+api_key = os.environ['EVENT_STREAMS_API_KEY']
 
 conf = {
         'bootstrap.servers': bootstrap_servers,
